@@ -130,7 +130,6 @@ export const userLogin = (username, password) => {
         'SELECT ID, username, password FROM User WHERE username = ? and password = ?;',
         [username, password],
         (_, result) => {
-          console.log('Login success');
           resolve(result);
         },
         (_, err) => {

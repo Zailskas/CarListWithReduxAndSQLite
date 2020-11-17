@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import CustomTextInput from '../components/textInput';
 import CustomButton from '../components/customButton';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
+import {login} from '../../store/actions/userActions';
+import {setLoginError} from '../../store/actions/messageActions';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -14,12 +17,22 @@ class LoginPage extends Component {
   }
   usernameChange(username) {
     this.setState({username});
-    console.log(username);
   }
   passwordChange(password) {
     this.setState({password});
-    console.log(password);
   }
+  handleSubmit = () => {
+    this.props.login(this.state.username, this.state.password);
+    if (this.props.message.errorLogin === false) {
+      this.props.navigation.navigate('PrivatePage');
+    } else {
+      Alert.alert('Wrong credentials');
+    }
+
+    //if (this.props.message)
+  };
+  //this.props.navigation.navigate('PrivatePage')
+
   render() {
     return (
       <View>
@@ -36,10 +49,7 @@ class LoginPage extends Component {
           onChangeText={(text) => this.passwordChange(text)}
           secureTextEntry={true}
         />
-        <CustomButton
-          title="Login"
-          onPress={() => this.props.navigation.navigate('PrivatePage')}
-        />
+        <CustomButton title="Login" onPress={() => this.handleSubmit()} />
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('Register_page')}>
           <Text>No account? Create one !!!</Text>
@@ -48,4 +58,10 @@ class LoginPage extends Component {
     );
   }
 }
-export default LoginPage;
+const mapStateToProps = (state) => {
+  return {
+    user: state.users,
+    message: state.message,
+  };
+};
+export default connect(mapStateToProps, {login, setLoginError})(LoginPage);

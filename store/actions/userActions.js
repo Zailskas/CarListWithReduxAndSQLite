@@ -34,21 +34,22 @@ export const showAllUsers = () => {
   };
 };
 
-export const login = (username, password) => {
+export const loginUser = (username, password) => {
   return async (dispatch) => {
-    dispatch({type: 'RESET_USER_LIST', payload: null});
     try {
       const dbResult = await userLogin(username, password);
       console.log(dbResult.rows.length);
       if (dbResult.rows.length > 0) {
-        dispatch({type: 'ERROR_LOGIN', payload: false});
         dispatch({
           type: 'LOGIN_SUCCESS',
-          payload: dbResult.rows,
+          payload: true,
         });
       } else {
         console.log('Blogi duomenys');
-        dispatch({type: 'ERROR_LOGIN', payload: true});
+        dispatch({
+          type: 'LOGIN_SUCCESS',
+          payload: false,
+        });
       }
     } catch (err) {
       console.log('Klaida');

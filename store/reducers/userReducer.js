@@ -24,14 +24,20 @@ export const userReducer = (state = initialState, action) => {
         console.log(action.payload.item(i));
       }
       return {user: [...state.user, ...userList]};
+    default:
+      return state;
+  }
+};
+
+export const userLogin = (state = {isLoggedIn: false}, action) => {
+  switch (action.type) {
     case 'LOGIN_SUCCESS':
       console.log(action.payload);
-    /*const user = {
-        ID: action.payload.ID,
-        username: action.payload.username,
-        password: action.payload.password,
+      const newState = {
+        isLoggedIn: action.payload,
       };
-      return user;*/
+      console.log(newState);
+      return newState;
     default:
       return state;
   }

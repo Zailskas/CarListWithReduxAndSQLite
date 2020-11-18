@@ -4,7 +4,7 @@ import CustomTextInput from '../components/textInput';
 import CustomButton from '../components/customButton';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {connect} from 'react-redux';
-import {login} from '../../store/actions/userActions';
+import {loginUser} from '../../store/actions/userActions';
 import {setLoginError} from '../../store/actions/messageActions';
 
 class LoginPage extends Component {
@@ -22,8 +22,9 @@ class LoginPage extends Component {
     this.setState({password});
   }
   handleSubmit = () => {
-    this.props.login(this.state.username, this.state.password);
-    if (this.props.message.errorLogin === false) {
+    this.props.loginUser(this.state.username, this.state.password);
+    console.log('Login' + this.props.login.isLoggedIn);
+    if (this.props.login.isLoggedIn === true) {
       this.props.navigation.navigate('PrivatePage');
     } else {
       Alert.alert('Wrong credentials');
@@ -62,6 +63,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.users,
     message: state.message,
+    login: state.login,
   };
 };
-export default connect(mapStateToProps, {login, setLoginError})(LoginPage);
+export default connect(mapStateToProps, {loginUser, setLoginError})(LoginPage);

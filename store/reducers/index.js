@@ -1,5 +1,5 @@
 import {carReducer} from './carReducer';
-import {userReducer} from './userReducer';
+import {userReducer, userLogin} from './userReducer';
 import {combineReducers} from 'redux';
 import {messageReducer} from './messageReducer';
 
@@ -8,4 +8,5 @@ export default combineReducers({
   cars: carReducer,
   users: userReducer,
   message: messageReducer,
+  login: userLogin,
 });

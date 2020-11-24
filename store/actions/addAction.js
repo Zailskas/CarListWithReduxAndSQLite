@@ -24,7 +24,6 @@ export const addCar = (make, model) => {
 }*/
 export const removeCar = (id) => {
   return async (dispatch) => {
-    dispatch({type: 'RESET_CAR_LIST', payload: null});
     try {
       const dbResult = await deleteCar(id);
       console.log(dbResult);
